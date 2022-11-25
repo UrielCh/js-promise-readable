@@ -1,13 +1,13 @@
-import chai, {expect} from "chai"
+import chai, { expect } from "chai"
 
 import dirtyChai from "dirty-chai"
 chai.use(dirtyChai)
 
-import {PromiseReadable} from "../src/promise-readable"
+import { PromiseReadable } from "../src/promise-readable"
 
-import {And, Feature, Given, Scenario, Then, When} from "./lib/steps"
+import { And, Feature, Given, Scenario, Then, When } from "./lib/steps"
 
-import {MockStreamReadable} from "./lib/mock-stream-readable"
+import { MockStreamReadable } from "./lib/mock-stream-readable"
 
 Feature("Test promise-readable module for readAll method", () => {
   Scenario("Read all from stream", () => {
@@ -51,7 +51,7 @@ Feature("Test promise-readable module for readAll method", () => {
   })
 
   Scenario("Read all from paused stream", () => {
-    let content: string | Buffer | undefined
+    let content: string | Buffer | void
     let promiseReadable: PromiseReadable<MockStreamReadable>
     let stream: MockStreamReadable
 

@@ -33,7 +33,7 @@ export class PromiseReadable<TReadable extends ReadableStream> implements AsyncI
       }
 
       if (!stream.readable || stream.closed || stream.destroyed) {
-        return resolve()
+        return resolve(undefined)
       }
 
       const readableHandler = () => {
@@ -47,12 +47,12 @@ export class PromiseReadable<TReadable extends ReadableStream> implements AsyncI
 
       const closeHandler = () => {
         removeListeners()
-        resolve()
+        resolve(undefined)
       }
 
       const endHandler = () => {
         removeListeners()
-        resolve()
+        resolve(undefined)
       }
 
       const errorHandler = (err: Error) => {
@@ -90,7 +90,7 @@ export class PromiseReadable<TReadable extends ReadableStream> implements AsyncI
       }
 
       if (!stream.readable || stream.closed || stream.destroyed) {
-        return resolve()
+        return resolve(undefined)
       }
 
       const dataHandler = (chunk: Buffer | string) => {
@@ -103,7 +103,7 @@ export class PromiseReadable<TReadable extends ReadableStream> implements AsyncI
 
       const closeHandler = () => {
         removeListeners()
-        resolve()
+        resolve(undefined)
       }
 
       const endHandler = () => {
@@ -178,17 +178,17 @@ export class PromiseReadable<TReadable extends ReadableStream> implements AsyncI
       const eventHandler =
         event !== "close" && event !== "end" && event !== "error"
           ? (argument: any) => {
-              removeListeners()
-              resolve(argument)
-            }
+            removeListeners()
+            resolve(argument)
+          }
           : undefined
 
       const endHandler =
         event !== "close"
           ? () => {
-              removeListeners()
-              resolve()
-            }
+            removeListeners()
+            resolve()
+          }
           : undefined
 
       const errorHandler = (err: Error) => {
@@ -237,14 +237,14 @@ export class PromiseReadable<TReadable extends ReadableStream> implements AsyncI
 
       async next(): Promise<IteratorResult<Buffer | string>> {
         if (wasEof) {
-          return {value: "", done: true}
+          return { value: "", done: true }
         } else {
           const value = await promiseReadable.read(size)
           if (value === undefined) {
             wasEof = true
-            return {value: "", done: true}
+            return { value: "", done: true }
           } else {
-            return {value, done: false}
+            return { value, done: false }
           }
         }
       },

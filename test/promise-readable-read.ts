@@ -1,17 +1,17 @@
-import chai, {expect} from "chai"
+import chai, { expect } from "chai"
 
 import dirtyChai from "dirty-chai"
 chai.use(dirtyChai)
 
-import {PromiseReadable} from "../src/promise-readable"
+import { PromiseReadable } from "../src/promise-readable"
 
-import {And, Feature, Given, Scenario, Then, When} from "./lib/steps"
+import { And, Feature, Given, Scenario, Then, When } from "./lib/steps"
 
-import {MockStreamReadable} from "./lib/mock-stream-readable"
+import { MockStreamReadable } from "./lib/mock-stream-readable"
 
 Feature("Test promise-readable module for read method", () => {
   Scenario("Read chunks from stream", () => {
-    let chunk: string | Buffer | undefined
+    let chunk: string | Buffer | void
     let promiseReadable: PromiseReadable<MockStreamReadable>
     let stream: MockStreamReadable
 
@@ -57,7 +57,7 @@ Feature("Test promise-readable module for read method", () => {
   })
 
   Scenario("Read chunks from stream with encoding", () => {
-    let chunk: string | Buffer | undefined
+    let chunk: string | Buffer | void
     let promiseReadable: PromiseReadable<MockStreamReadable>
     let stream: MockStreamReadable
 
@@ -151,7 +151,7 @@ Feature("Test promise-readable module for read method", () => {
   })
 
   Scenario("Read closed stream", () => {
-    let chunk: string | Buffer | undefined
+    let chunk: string | Buffer | void
     let promiseReadable: PromiseReadable<MockStreamReadable>
     let stream: MockStreamReadable
 
@@ -175,7 +175,7 @@ Feature("Test promise-readable module for read method", () => {
   })
 
   Scenario("Read destroyed stream", () => {
-    let chunk: string | Buffer | undefined
+    let chunk: string | Buffer | void
     let promiseReadable: PromiseReadable<MockStreamReadable>
     let stream: MockStreamReadable
 
@@ -265,7 +265,9 @@ Feature("Test promise-readable module for read method", () => {
       try {
         await promiseReadable.read()
       } catch (e) {
-        error = e
+        if (e instanceof Error) {
+          error = e
+        }
       }
     })
 
